@@ -1,0 +1,75 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <!--Fonts here-->
+    <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Vidaloka" rel="stylesheet">
+
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'shops/css/searchbar.css' %}">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  </head>
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0px; background-color: black; padding: 10px;">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="container-fluid">
+        <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'shop:home' %}" style="color: rgba(245, 234, 234, 0.979); font-size: 35px; margin-top: 4px; color: white; font-family: 'Vidaloka', serif;">JAC's</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
+
+      <ul class="nav navbar-nav navbar-right" style="margin-right: 60px; ">
+          <li style="margin-top: 0px; margin-right: 10px; margin-bottom: 0px;">
+          <form style="color: white;">
+              <input placeholder=" Search" type="search" name="search" style="opacity:0.9; height: 60px; width: 900px; color: rgba(255, 255, 255, 0.945); font-size: 25px; border-radius: 7px; background-color: rgb(90, 89, 89); border-color: black;">
+          </form></li>
+            <li>
+            <a href="{% url 'tendor_list' %}" style="font-size: 25px; color: white; margin-top: 8px;">
+            Restaurants
+           </a>
+            <li>
+            <a href="{% url 'serv-list' %}" style="font-size: 25px; color: white; margin-top: 8px;">
+            Combos
+           </a>
+          </li>
+          </li>
+          <li>
+            <a href="{% url 'cart:cart_detail' %}" style="font-size: 25px; color: white; margin-top: 4px;">
+            Cart
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+           </a>
+          </li>
+          
+        <li class="dropdown" style="font-size: 18px;text-decoration: none; color: white;">
+            {% if request.user.is_authenticated %}
+
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white; font-size: 25px; margin-top: 5px;">{{ request.user.username }}<b class="caret"></b></a>
+          <ul class="dropdown-menu" style="font-size: 20px; color: black; ">
+            <li><a href="{% url 'myprofile' %}">My Profile</a></li>
+            <li><a href="{% url 'orders:myorders' %}">My Orders</a> </li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+              {% else %}
+            <li class="divider"></li>
+            <li><a href="{% url 'login' %}" style="color: white; font-size: 25px; margin-top: 7px;">Log in</a></li>
+          <li><a href="{% url 'presignup' %}" style="color: white; font-size: 25px; margin-top: 7px">Sign up</a></li>
+          </ul>
+          {% endif %}
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+    </div>
+  </nav>

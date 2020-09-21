@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.name }} {% else %} Products {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<head>
+
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<!--META-->
+<meta name="viewport" content="width=device-width initial-scale=1.0">
+
+<!--FONTS-->
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+ <link rel="stylesheet" href="{% static 'shops/css/productlistcss.css'%}">
+</head>
+
+
+<br/><br/><br/><br/><br/><br/>
+
+<div class="filters">
+<ul style="margin-left: 260px;font-size: 20px; color: black; font-family:lato;">
+   <a href="?pop=True"> <li style="display: inline;font-size: 20px; color: black; font-family:lato;">Popularity</li></a>|
+   <a href="?priceasc=True"> <li style="display: inline;font-size: 20px;color: black; font-family:lato;">Price-Low To High</li></a>|
+   <a href="?pricedesc=True"><li style="display: inline;font-size: 20px;color: black;font-family:lato;">Price-High To Low</li></a>
+</ul>
+<div style="margin-top:-20px;">
+<hr/>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if products %}
+ <div class="band card product-details" style="margin-left: 300px; width: 300px; text-decoration: none;">
+  {% for product in products %}
+  <div class="item-3">
+    <a class="card1" href="{{product.get_absolute_url}}"  style="text-decoration: none;">
+      <div class="thumb" style="background: url('{{ product.image.url }}');background-size: cover;background-position: center top; width:250px; height:350px;"></div>
+      <article>
+        <h1 style="font-family: lato; font-size: 18px;">{{ product.name }}</h1>
+        <span style="font-family:lato; font-size:30px; font-weight: bold;">Rs.{{ product.price }}</span>
+      </article>
+    </a>
+  </div>
+ {% endfor %}
+</div>
+{% else %}
+    <h1 style="font-family:lato; font-size:30px;">No Result Found</h1>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div style="margin-top: -450px;position: relative;margin-left: -140px;">
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module">
+            <h4 style="font-family:lato; font-size:28px; font-weight:bold;">Restaurants</h4>
+            <ol class="list-unstyled">
+              <li {% if not category %} class="active"{% endif %}><a href="{% url 'shop:product_list' %}" style="font-family:lato; font-size:24px; color: black; ">All</a></li>
+            {% for c in categories %}
+
+              <li {% if category.slug == c.slug %} class="active"{% endif %}>
+                  <a href="{{ c.get_absolute_url }}" style="font-family:lato; font-size:24px; color: black; ">{{ c.name }}</a>
+              </li>
+            {% endfor %}
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->
+<br/><br/>
+     </div>
+{% endblock %}

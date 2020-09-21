@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {% if category %}{{ category.name }} {% else %} Products {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<head>
+
+ <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!--Fonts here -->
+<link href="https://fonts.googleapis.com/css?family=Arbutus+Slab" rel="stylesheet">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<!--META-->
+<meta name="viewport" content="width=device-width initial-scale=1.0">
+
+<!--FONTS-->
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+    <!--CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'shops/css/productdetailcss.css' %}">
+
+  <link rel='stylesheet' href='https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.carousel.min.css'>
+<link rel='stylesheet' href='https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.theme.default.min.css'>
+
+
+
+</head>
+
+
+
+<br/><br/><br/><br/>
+<div>
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" style="margin-left: 1800px;">Report</button>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Reason</h4>
+      </div>
+      <form method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+
+        <button type="submit" class="btn btn-success" value="submit">Submit</button>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
+</div>
+
+
+
+
+
+<div class="row product_row">
+        <div class="col-lg-5" >
+            <!-- Product Image -->
+				<div class="col-lg-7" style="margin-left: 400px;">
+					<div class="product_image">
+						<div class="product_image_large"><img src="{% if product.image %} {{ product.image.url }} {% else %} {% static 'shops/img/default.jpg' %} {% endif %}" alt="" style="width: 500px;height: 500px;"></div>
+					</div>
+				</div>
+					<div class="product_content" style="margin-left: 930px;">
+						<div class="product_name" style="font-family:lato; font-size:30px; font-weight:500; margin-right: -1000px;">{{ product.name }}</div>
+						<div class="product_price" style="font-family:lato; font-size:40px; font-weight:600;">Rs&nbsp;{{ product.price }}</div>
+
+
+						<div class="product_text" style="font-size:20px; margin-right: -710px; font-family:lato;">
+							<p>{{product.description }}</p>
+						</div>
+
+						<!-- Product Size -->
+						<div class="product_size_container" style="font-family:lato; font-size: 18px; font-weight:300;">
+							<form action="{% url "cart:cart_add" product.id %}" method="post">
+                                {% csrf_token %}
+                                {{ cart_product_form }}<br/><br/>
+                                <input type="submit" value="Add To Cart" class="btn" style="background-color: black;color: white; width:200px; text-align:center; height:40px;">
+														</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+<div class="row">
+				<div class="col">
+
+					<div class="reviews">
+
+						<div class="reviews_title" style="font-family:lato;font-size:40px; margin-left:40px;">REVIEWS</div>
+                        <hr>
+						<div class="reviews_container">
+                                  {% for rat in ratings_reviews %}
+					<div class="row">
+						<div class="col-sm-3">
+							<img src="{% if rat.name.picture != None %}{{ rat.name.picture }}{% else %}https://i.stack.imgur.com/34AD2.jpg{% endif %}" class="img-rounded" style="width:60px;height: 60px; margin-left:50px;">
+							<div class="review-block-name" style="font-family:kato; font-size:25px; font-weight: bold; margin-left:50px; margin-top:0px;"><a href="#" style="color: black;">{{rat.name}}</a></div>
+						</div>
+						<div class="col-sm-9" class="ratingstars">
+                            {% if rat.rating == 1 %}
+							<div class="review-block-rate">
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+							</div>
+                            {% elif rat.rating == 2 %}
+                            <div class="review-block-rate">
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; height:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+							</div>
+                            {% elif rat.rating == 3 %}
+                            <div class="review-block-rate">
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+							</div>
+                            {% elif rat.rating == 4 %}
+                            <div class="review-block-rate" style="margin-top:0; margin-left:-125px; margin-top:0px;">
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px; "></span>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+							</div>
+                            {% elif rat.rating == 5 %}
+                            <div class="review-block-rate">
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true" style="height:30px; width:30px;"></span>
+								</button>
+							</div>
+                            {% endif %}
+							<div class="review-block-description" style="font-family: lato; font-size:18px; font-weight:400; margin-top:-100px; margin-left:-125px;">{{ rat.text }}</div>
+						</div>
+					</div>
+                    <hr/>
+                    {% endfor %}
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+<div style="margin-left: 70%;margin-top: -199px;">
+<iframe
+    allow="microphone;"
+    width="350"
+    height="430"
+    src="https://console.dialogflow.com/api-client/demo/embedded/49e04073-e918-4101-b1d1-9b2a2e769ca7">
+</iframe>
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <br/><br/><br/><br/>
+<br/><br/>
+
+
+{% endblock %}
